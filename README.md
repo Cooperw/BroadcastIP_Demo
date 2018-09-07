@@ -5,3 +5,9 @@ This script is run a service on boot and connects to an IRC channel hosted by fo
 
 Feel free to use this script but you may need to modify it if you wish to use different IRC servers and channels.
 **I cannot guarentee the safety of this script, use at your own risk.**
+
+Run
+
+```sudo ./install```
+
+to setup the service and move files around.
