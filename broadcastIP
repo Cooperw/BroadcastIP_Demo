@@ -1,0 +1,49 @@
+#! /bin/bash
+
+#A simple script that broadcasts this pi's local ip to an IRC channel
+#Have this run at startup to locate your pi for ssh
+#Written By: Cooper Wiegand
+
+count=0;
+while true; do
+    if [[ $(hostname -I) ]];
+    then
+        break
+    else
+	if [ $count -eq 20 ]; then
+		echo "Network Unreachable!"
+		exit 0
+	fi
+        sleep 1
+	count=$(($count+1))
+    fi
+done
+
+#vervet.foonetic.net
+address="216.93.242.12"
+channel="#pinpointpi"
+
+#exit message
+echo "$0: Broadcasting to $address $channel"
+echo "$0: Messages about terminating 'ii -i /home/pi/irc -s $address' are good."
+
+#create message
+hostname=$(hostname)
+internalIP=$(hostname -I)
+message="$internalIP"
+
+#start ii
+ii -n "$hostname" -i /home/pi/irc -s $address -f "$hostname"&
+sleep 1
+
+#join channel to create folder and send message
+echo "/j $channel" > "/home/pi/irc/$address/in"
+echo "/PRIVMSG $channel $message" > "/home/pi/irc/$address/in"
+sleep 1
+
+#kill ii process and clean up
+pkill "ii"
+#rm -r ~/irc
+
+#exit message
+echo "$0: Broadcast Complete!"

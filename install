@@ -1,0 +1,15 @@
+#! /bin/bash
+
+#Simple install script to move files to the correct places and to set up service
+#Run "sudo ./install"
+
+#Install ii
+sudo apt-get install ii
+
+#Copy files to location
+sudo cp ./broadcastIP /usr/bin/broadcastIP
+sudo cp ./broadcastIP.service /lib/systemd/system/broadcastIP.service
+
+#Setup service
+sudo systemctl daemon-reload
+sudo systemctl enable broadcastIP.service

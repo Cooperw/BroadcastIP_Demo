@@ -1,0 +1,10 @@
+[Unit]
+Description=Send internal ip to IRC channel
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/broadcastIP
+
+[Install]
+WantedBy=multi-user.target
